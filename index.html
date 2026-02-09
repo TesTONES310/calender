@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SixTONES LIVE 2026 カウントダウン</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; text-align: center; background: #111; color: #fff; margin: 0; padding: 20px; }
+        .card { background: #222; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 400px; margin: auto; border-top: 8px solid #f2d349; transition: all 0.5s; }
+        h1 { font-size: 1.2rem; margin-bottom: 10px; color: #aaa; }
+        .days-container { margin: 20px 0; }
+        .days { font-size: 3.5rem; font-weight: bold; color: #fff; line-height: 1; }
+        .unit { font-size: 1.2rem; margin-left: 5px; }
+        img { width: 100%; border-radius: 10px; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .msg { margin-top: 15px; font-weight: bold; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <div class="card" id="main-card">
+        <h1 id="today"></h1>
+        <p>SixTONES LIVEまで</p>
+        <div class="days-container">
+            <span class="days" id="countdown"></span><span class="unit" id="unit-text">日</span>
+        </div>
+        <img id="daily-image" src="" alt="Today's Photo">
+        <div class="msg" id="message"></div>
+    </div>
+
+    <script>
+        // 【仮設定】残り日数ごとのメンカラとイメージ画像
+        // 実際の画像URLを手に入れたら、""の中を書き換えてください。
+        const schedule = {
+            "12": { name: "ジェシー", color: "#ed1c24", msg: "ズドン！", img: "https://images.unsplash.com/photo-1514525253344-f81bcd04a1e5?w=400&q=80" },
+            "11": { name: "京本大我", color: "#ffc0cb", msg: "美しく参りましょう", img: "https://images.unsplash.com/photo-1465821185615-90b38b0848b5?w=400&q=80" },
+            "10": { name: "松村北斗", color: "#111111", msg: "冷静に、情熱的に", img: "https://images.unsplash.com/photo-1557683311-eac922347aa1?w=400&q=80" },
+            "9":  { name: "髙地優吾", color: "#ffff00", msg: "日々笑顔！", img: "https://images.unsplash.com/photo-1528605248644-14dd0432211e?w=400&q=80" },
+            "8":  { name: "森本慎太郎", color: "#008000", msg: "盛り上がっていこうぜ！", img: "https://images.unsplash.com/photo-1459749411177-042180ec75fa?w=400&q=80" },
+            "7":  { name: "田中樹", color: "#0000ff", msg: "ぶちかますぞ", img: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400&q=80" },
+            "0":  { name: "SixTONES", color: "#f2d349", msg: "LIVE当日！！楽しもう！", img: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400&q=80" }
+        };
+
+        const defaultData = { color: "#444", msg: "もうすぐLIVE！", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&q=80" };
+
+        function updateDisplay() {
+            const targetDate = new Date('2026-02-21T00:00:00');
+            const now = new Date();
+            
+            // 日付表示
+            document.getElementById('today').innerText = (now.getMonth() + 1) + "月" + now.getDate() + "日";
+            
+            // 残り日数計算
+            const diff = targetDate - now;
+            const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            
+            const countEl = document.getElementById('countdown');
+            const unitEl = document.getElementById('unit-text');
+            const imgEl = document.getElementById('daily-image');
+            const msgEl = document.getElementById('message');
+            const cardEl = document.getElementById('main-card');
+
+            if (daysLeft <= 0) {
+                countEl.innerText = "TODAY";
+                unitEl.innerText = "";
+                var data = schedule["0"];
+            } else {
+                countEl.innerText = daysLeft;
+                var data = schedule[daysLeft] || defaultData;
+            }
+
+            // 反映
+            imgEl.src = data.img;
+            msgEl.innerText = data.msg;
+            cardEl.style.borderTopColor = data.color;
+        }
+        updateDisplay();
+    </script>
+</body>
+</html>
